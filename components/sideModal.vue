@@ -1,8 +1,12 @@
 <template>
-  <div class="side-modal">
+  <div v-show="open" class="side-modal">
     <div class="side-modal-container">
-      <div :class="open? 'side-modal-content side-modal-open':'side-modal-content side-modal-close'">
-        <invoice-form :theme-dark="themeDark" />
+      <div :class="open? 'side-modal-content side-modal-open':'side-modal-content side-modal-close'"
+        style="overflow-y: scroll;">
+        <invoice-form
+          :theme-dark="themeDark"
+          :id="id"
+          @close="close" />
       </div>
     </div>
   </div>
@@ -21,8 +25,17 @@ export default {
     open: {
       type: Boolean,
       default: false,
+    },
+    id: {
+      type: String,
+      default: '',
     }
   },
+  methods: {
+    close() {
+      this.$emit('close');
+    },
+  }
 }
 </script>
 <style scoped>

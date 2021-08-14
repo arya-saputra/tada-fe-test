@@ -1,12 +1,12 @@
 <template>
   <section>
-    <b-container
+    <div
       :class="{
         'text-dark': !theme_dark,
         'text-light': theme_dark,
       }">
       <invoice-list :theme-dark="theme_dark" />
-    </b-container>
+    </div>
   </section>
 </template>
 <script>

@@ -1,8 +1,8 @@
 <template>
   <b-card
     :class="{
-      'mb-2 w-100 bg-dark-card': themeDark,
-      'mb-2 w-100 bg-light-card': !themeDark,
+      'mb-2 w-100 bg-dark-card shadow': themeDark,
+      'mb-2 w-100 bg-light-card shadow': !themeDark,
     }"
     @click="gotoPage"
   >
@@ -10,46 +10,73 @@
       'text-dark': !themeDark,
       'text-light': themeDark,
     }">
-      <b-row>
+      <b-row class="is-desktop">
         <b-col
           md="2"
           sm="6"
           class="d-flex align-items-center">
-          #{{ id }}
+          #{{ details.id }}
         </b-col>
         <b-col
           md="2"
           sm="6"
           class="d-flex align-items-center justify-content-center">
-          {{ date }}
+          {{ details.data_to.date }}
         </b-col>
         <b-col
           md="2"
           sm="6"
           class="d-flex align-items-center justify-content-center">
-          {{ name }}
+          {{ details.data_to.name }}
         </b-col>
         <b-col
           md="3"
           sm="6"
           class="d-flex align-items-center justify-content-center">
-          {{ addCommas(amount) }}
+          {{ addCommas(details.total) }}
         </b-col>
         <b-col
           md="2"
           sm="6"
           class="d-flex align-items-center">
           <b-alert
-          :variant="status=='PAID'? 'success':
-          status=='PENDING'? 'warning':'light'"
+          :variant="details.status=='PAID'? 'success':
+          details.status=='PENDING'? 'warning':'light'"
           class="my-0"
-          show>• {{ status }}</b-alert>
+          show>• {{ details.status }}</b-alert>
         </b-col>
         <b-col
           md="1"
           sm="6"
           class="d-flex align-items-center justify-content-center">
           >
+        </b-col>
+      </b-row>
+      <b-row class="is-mobile">
+        <b-col
+          cols="6"
+          class="mb-4 text-left">
+          #{{ details.id }}
+        </b-col>
+        <b-col
+          cols="6"
+          class="mb-4 text-right">
+          {{ details.data_to.name }}
+        </b-col>
+        <b-col
+          cols="6"
+          class="mt-2 text-left">
+          <p class="m-0">{{ details.data_to.date }}</p>
+          {{ addCommas(details.total) }}
+        </b-col>
+        <b-col
+          cols="6"
+          class="mt-2 text-left">
+          <b-alert
+          :variant="details.status=='PAID'? 'success':
+          details.status=='PENDING'? 'warning':'light'"
+          class="my-0 text-center"
+          show>• {{ details.status }}</b-alert>
         </b-col>
       </b-row>
     </b-card-text>
@@ -61,25 +88,14 @@ export default {
     themeDark: {
       type: Boolean,
     },
-    id: {
-      type: Number,
-    },
-    date: {
-      type: String,
-    },
-    name: {
-      type: String,
-    },
-    amount: {
-      type: Number,
-    },
-    status: {
-      type: String,
+    details: {
+      type: Object,
+      default: {},
     },
   },
   methods: {
     gotoPage() {
-      this.$router.push('/invoice/detail?id=' + this.id)
+      this.$router.push('/invoice/detail?id=' + this.details.id)
     },
     addCommas(nStr) {
       nStr += '';
@@ -96,6 +112,16 @@ export default {
 }
 </script>
 <style scoped>
+.card:hover {
+  opacity: .8;
+  cursor: pointer;
+  transform: scale(1.07);
+}
+
+.card {
+  transition: transform .2s;
+}
+
 .bg-dark-card {
   background: #333;
 }

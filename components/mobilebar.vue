@@ -1,34 +1,42 @@
 <template>
-  <div>
-    <div :class="{
-      'sidebar-container bg-side-dark height-100': theme_dark,
-      'sidebar-container bg-side-light height-100': !theme_dark,
+  <b-row :class="{
+      'sidebar-container mx-0 bg-side-dark width-100 justify-content-between': theme_dark,
+      'sidebar-container mx-0 bg-side-light width-100 justify-content-between': !theme_dark,
     }">
-      <div class="logo-container" @click="goHome">
-        <tadalogo/>
-      </div>
-      <div class="menu-container">
-        <div
-          class="px-2 py-3 d-flex align-items-center justify-content-center theme-switcher"
-          @click="switchTheme">
+    <b-col
+      cols="2"
+      class="logo-container"
+      @click="goHome">
+      <tadalogo/>
+    </b-col>
+    <b-col
+      cols="4">
+      <b-row>
+        <b-col
+          cols="6">
+          <div
+            class="d-flex align-items-center justify-content-center px-2 py-3 theme-switcher"
+            @click="switchTheme">
 
-          <img
-            :class="!theme_dark? 'img-out':'img-in'"
-            src="~/static/day.svg" width="30%" />
-          <img
-            :class="theme_dark? 'img-out':'img-in'"
-            src="~/static/night.svg" width="30%" />
-        </div>
-        <hr :class="{
-          'border-light': theme_dark,
-          'border-dark': !theme_dark,
-        }">
-        <div class="px-2 py-3 d-flex align-items-center justify-content-center">
-          <b-avatar :src="avatarImg"></b-avatar>
-        </div>
-      </div>
-    </div>
-  </div>
+            <img
+              :class="!theme_dark? 'img-out':'img-in'"
+              src="~/static/day.svg" width="100%" />
+            <img
+              :class="theme_dark? 'img-out':'img-in'"
+              src="~/static/night.svg" width="100%" />
+          </div>
+        </b-col>
+        <b-col
+          cols="6">
+          <div class="menu-container">
+            <div class=" py-3 ">
+              <b-avatar :src="avatarImg"></b-avatar>
+            </div>
+          </div>
+        </b-col>
+      </b-row>
+    </b-col>
+  </b-row>
 </template>
 <script>
 import { mapActions, mapState } from 'vuex';
@@ -64,35 +72,20 @@ export default {
   background: #dfdfdf;
 }
 
-.sidebar-container {
-  align-items: stretch;
-  flex-wrap: wrap;
-  position: relative;
-  border-radius: 0 20px 20px 0;
-  overflow: hidden;
-}
-
-.height-100 {
-  height: 100vh;
-}
-
 .logo-container {
-  cursor: pointer;
   background: rgb(146,119,255);
   background: linear-gradient(0deg, rgba(146,119,255,1) 45%, rgba(117,86,236,1) 46%);
-  width: 100%;
-  height: 10%;
-  padding: 20px 15px;
+  width: 20%;
+  padding: 10px 15px;
+  border-radius: 0 10px 10px 0;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.menu-container {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
+.logo-container img{
+  width: 20%;
 }
 
 .theme-switcher {
@@ -100,11 +93,6 @@ export default {
   overflow: hidden;
   width: 100%;
   height: 100%;
-  cursor: pointer;
-}
-
-.theme-switcher img{
-  position: absolute;
 }
 
 .img-out {
@@ -112,6 +100,7 @@ export default {
   animation-duration: 1s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
+  display: none;
 };
 
 .img-in {
@@ -119,23 +108,28 @@ export default {
   animation-duration: 1s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
+  display: block;
 };
 
 @keyframes in {
   0%{
     opacity: 0;
+    display: none;
   }
   100%{
     opacity: 1;
+    display: block;
   }
 }
 
 @keyframes out {
   0%{
     opacity: 1;
+    display: block;
   }
   100%{
     opacity: 0;
+    display: none;
   }
 }
 </style>
